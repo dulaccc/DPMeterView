@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, DPMeterType) {
 - (CGFloat)rescaledProgress:(CGFloat)progress;
 - (void)setProgress:(CGFloat)progress;
 - (void)setProgress:(CGFloat)progress animated:(BOOL)animated;
-- (void)setProgress:(CGFloat)progress withDuration:(NSTimeInterval)duration;
+- (void)setProgress:(CGFloat)progress duration:(NSTimeInterval)duration;
 - (void)minus:(CGFloat)delta;
 - (void)minus:(CGFloat)delta animated:(BOOL)animated;
 - (void)add:(CGFloat)delta;

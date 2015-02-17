@@ -399,20 +399,20 @@
 
 - (void)setProgress:(CGFloat)progress
 {
-    [self setProgress:progress animated:NO withDuration:0];
+    [self setProgress:progress animated:NO duration:0];
 }
 
 - (void)setProgress:(CGFloat)progress animated:(BOOL)animated
 {
-    [self setProgress:progress animated:animated withDuration:0.5];
+    [self setProgress:progress animated:animated duration:0.5];
 }
 
-- (void)setProgress:(CGFloat)progress withDuration:(NSTimeInterval)duration
+- (void)setProgress:(CGFloat)progress duration:(NSTimeInterval)duration
 {
-    [self setProgress:progress animated:YES withDuration:duration];
+    [self setProgress:progress animated:YES duration:duration];
 }
 
-- (void)setProgress:(CGFloat)progress animated:(BOOL)animated withDuration:(NSTimeInterval)duration
+- (void)setProgress:(CGFloat)progress animated:(BOOL)animated duration:(NSTimeInterval)duration
 {
     CGFloat pinnedProgress = MIN(MAX(progress, 0.f), 1.f);
     NSArray* newLocations = [self gradientLocations:pinnedProgress];
