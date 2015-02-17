@@ -46,9 +46,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7500BCB02B6D2D9C9F5168AB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		848A6B969C5043C3A1EC258C /* libPods-DPMeterViewTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DPMeterViewTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		980DA5169C21441CBEFFCD1A /* Pods-DPMeterViewTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DPMeterViewTests.xcconfig"; path = "Pods/Pods-DPMeterViewTests.xcconfig"; sourceTree = SOURCE_ROOT; };
-		A8A68A268D814A758AA0783B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		A0535CC06C2AAD9131936CD9 /* Pods-DPMeterViewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DPMeterViewTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DPMeterViewTests/Pods-DPMeterViewTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A08C3F10EBE89B91F8657648 /* Pods-DPMeterViewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DPMeterViewTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DPMeterViewTests/Pods-DPMeterViewTests.release.xcconfig"; sourceTree = "<group>"; };
 		BE0BF47C16B6DC0C00E513E0 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		BE0BF47E16B6DC0F00E513E0 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		BE7C401916B580E900A4581F /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,6 +77,7 @@
 		BE7C406016B5864C00A4581F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BE7C406D16B5EDB700A4581F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		C31862DBEA1A4747AE7D6D77 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7569A576BC8948D0A68088E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,8 +137,7 @@
 				BE7C404A16B580EA00A4581F /* Tests */,
 				BE7C401C16B580E900A4581F /* Frameworks */,
 				BE7C401A16B580E900A4581F /* Products */,
-				A8A68A268D814A758AA0783B /* Pods.xcconfig */,
-				980DA5169C21441CBEFFCD1A /* Pods-DPMeterViewTests.xcconfig */,
+				F8D7724AF6BF24EDC7A75239 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -193,6 +194,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		F8D7724AF6BF24EDC7A75239 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E7569A576BC8948D0A68088E /* Pods.debug.xcconfig */,
+				7500BCB02B6D2D9C9F5168AB /* Pods.release.xcconfig */,
+				A0535CC06C2AAD9131936CD9 /* Pods-DPMeterViewTests.debug.xcconfig */,
+				A08C3F10EBE89B91F8657648 /* Pods-DPMeterViewTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -232,7 +244,7 @@
 			name = DPMeterViewTests;
 			productName = DPMeterViewTests;
 			productReference = BE7C404316B580EA00A4581F /* DPMeterViewTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -307,7 +319,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-DPMeterViewTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DPMeterViewTests/Pods-DPMeterViewTests-resources.sh\"\n";
 		};
 		4FA168AB7E9A4323952EF39F /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -321,7 +333,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 		};
 		BE7C404116B580EA00A4581F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -461,7 +473,7 @@
 		};
 		BE7C405616B580EA00A4581F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A8A68A268D814A758AA0783B /* Pods.xcconfig */;
+			baseConfigurationReference = E7569A576BC8948D0A68088E /* Pods.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -475,6 +487,7 @@
 					"-framework",
 					QuartzCore,
 					"$(XCODE_TEST_LDFLAGS)",
+					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -484,7 +497,7 @@
 		};
 		BE7C405716B580EA00A4581F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A8A68A268D814A758AA0783B /* Pods.xcconfig */;
+			baseConfigurationReference = 7500BCB02B6D2D9C9F5168AB /* Pods.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -498,6 +511,7 @@
 					"-framework",
 					QuartzCore,
 					"$(XCODE_TEST_LDFLAGS)",
+					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -507,7 +521,7 @@
 		};
 		BE7C405916B580EA00A4581F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 980DA5169C21441CBEFFCD1A /* Pods-DPMeterViewTests.xcconfig */;
+			baseConfigurationReference = A0535CC06C2AAD9131936CD9 /* Pods-DPMeterViewTests.debug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Example-Prefix.pch";
@@ -531,7 +545,7 @@
 		};
 		BE7C405A16B580EA00A4581F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 980DA5169C21441CBEFFCD1A /* Pods-DPMeterViewTests.xcconfig */;
+			baseConfigurationReference = A08C3F10EBE89B91F8657648 /* Pods-DPMeterViewTests.release.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Example-Prefix.pch";

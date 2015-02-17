@@ -48,9 +48,9 @@
     if (!self) {
         return nil;
     }
-    
+
     [self commonInit];
-    
+
     return self;
 }
 
@@ -60,9 +60,9 @@
     if (!self) {
         return nil;
     }
-    
+
     [self commonInit];
-    
+
     return self;
 }
 
@@ -82,15 +82,15 @@
     if (!self) {
         return nil;
     }
-    
+
     [self commonInit];
-    
+
     // use the shape as a mask
     [self setShape:shape];
-    
+
     // gravity motion
     if (gravity) {
-        [self startGravity];            
+        [self startGravity];
     }
 
     return self;
@@ -101,7 +101,7 @@
     self.backgroundColor = [UIColor clearColor];
     self.trackTintColor = [UIColor greenColor];
     self.progressTintColor = [UIColor blueColor];
-    
+
     self.meterType = DPMeterTypeLinearVertical;
     self.gradientLayer.locations = @[@0.f, @0.f];
     self.progress = 0.f;
@@ -113,11 +113,11 @@
         case DPMeterTypeLinearVertical:
             [self setGradientOrientationAngle:M_PI_2];
             break;
-            
+
         case DPMeterTypeLinearHorizontal:
             [self setGradientOrientationAngle:0];
             break;
-            
+
         default:
             // enforce explicit declaration
             NSAssert(_meterType == DPMeterTypeLinearNone,
@@ -139,7 +139,7 @@
     if (shape == nil) {
         self.gradientLayer.mask = nil;
     }
-    
+
     CAShapeLayer* maskLayer = [CAShapeLayer layer];
     maskLayer.path = shape;
     self.gradientLayer.mask = maskLayer;
@@ -154,9 +154,9 @@
 {
     if (_meterType == meterType)
         return;
-    
+
     _meterType = meterType;
-    
+
     // config gradient according to the meter type
     [self initialGradientOrientation];
 }
@@ -192,27 +192,27 @@
 {
     // make sure again that it's a percentage
     CGFloat pinnedProgress = MIN(MAX(progress, 0.f), 1.f);
-    
+
     // get the bounding box of the mask shape
     CGRect shapeBounds = [self shapeBounds];
-    
+
     if (CGRectIsEmpty(shapeBounds)) {
         return pinnedProgress;
     }
-    
+
     // rescale the progress against the distance between the start and end points
     CGPoint start = self.gradientLayer.startPoint, end = self.gradientLayer.endPoint;
-    
+
     // map the gradient points to the shape bounds
     CGPoint shapeStart = CGPointMake(start.x * shapeBounds.size.width, start.y * shapeBounds.size.height);
     CGPoint shapeEnd = CGPointMake(end.x * shapeBounds.size.width, end.y * shapeBounds.size.height);
-    
+
     // compute shape distance
     CGFloat shapeDistance = sqrt((shapeStart.x - shapeEnd.x)*(shapeStart.x - shapeEnd.x) +
                                  (shapeStart.y - shapeEnd.y)*(shapeStart.y - shapeEnd.y));
     // scale progress against the distance
     CGFloat scaledProgress = pinnedProgress * shapeDistance;
-    
+
     // compute the shape padding
     // NB: the coordinates of Apple are (0,0) at the top left
     CGFloat viewDistance, shapePadding;
@@ -230,13 +230,13 @@
         viewDistance = CGRectGetHeight(self.bounds);
         shapePadding = CGRectGetMinY(shapeBounds);
     }
-    
+
     // translate the progress by the shape padding
     scaledProgress += shapePadding;
-    
+
     // convert into a percentage
     scaledProgress /= viewDistance;
-    
+
     return scaledProgress;
 }
 
@@ -250,15 +250,15 @@
 {
     // map-inverse the points because Apple is using (0,0) at the top-left origin
     CGPoint s = CGPointMake(self.gradientLayer.startPoint.x, 1.f - self.gradientLayer.startPoint.y),
-            e = CGPointMake(self.gradientLayer.endPoint.x, 1.f - self.gradientLayer.endPoint.y);
-    
+    e = CGPointMake(self.gradientLayer.endPoint.x, 1.f - self.gradientLayer.endPoint.y);
+
     CGFloat dx = s.x - e.x,
-            dy = s.y - e.y;
-    
+    dy = s.y - e.y;
+
     if (dx == 0) {
         return M_PI_2;
     }
-    
+
     CGFloat alpha = atanf(dy/dx);
     if (alpha < 0) {
         alpha += M_PI;
@@ -279,7 +279,7 @@
         return @[[NSValue valueWithCGPoint:CGPointMake(CGRectGetMidX(box), CGRectGetMaxY(box))],
                  [NSValue valueWithCGPoint:CGPointMake(CGRectGetMidX(box), CGRectGetMinY(box))]];
     }
-    
+
     // Horizontal special cases
     if (fabs(angle) < EPSILON) {
         // horizontal "right"
@@ -290,13 +290,13 @@
         return @[[NSValue valueWithCGPoint:CGPointMake(CGRectGetMaxX(box), CGRectGetMidY(box))],
                  [NSValue valueWithCGPoint:CGPointMake(CGRectGetMinX(box), CGRectGetMidY(box))]];
     }
-    
+
     // Compute the end point as a point on the unit circle
     CGFloat x = cosf(angle),
     y = sinf(angle);
     CGPoint start = CGPointMake(0.f, 0.f);  // center of the unit circle
     CGPoint end = CGPointMake(x, y);        // on the unit circle
-    
+
     // Bounding box intersections (in 2D)
     // http://people.csail.mit.edu/amy/papers/box-jgt.pdf
     //
@@ -307,10 +307,10 @@
                                     CGRectGetWidth(box),
                                     CGRectGetHeight(box));
     CGFloat dx = end.x - start.x,
-            dy = end.y - start.y,
-            m = dy/dx,
-            txmin, txmax, tymin, tymax;
-    
+    dy = end.y - start.y,
+    m = dy/dx,
+    txmin, txmax, tymin, tymax;
+
     if (dx >= 0) {
         tymin = (CGRectGetMinX(centeredBox) - start.x) / (1/m);
         tymax = (CGRectGetMaxX(centeredBox) - start.x) / (1/m);
@@ -318,7 +318,7 @@
         tymin = (CGRectGetMaxX(centeredBox) - start.x) / (1/m);
         tymax = (CGRectGetMinX(centeredBox) - start.x) / (1/m);
     }
-    
+
     if (dy >= 0) {
         txmin = (CGRectGetMinY(centeredBox) - start.y) / m;
         txmax = (CGRectGetMaxY(centeredBox) - start.y) / m;
@@ -326,23 +326,23 @@
         txmin = (CGRectGetMaxY(centeredBox) - start.y) / m;
         txmax = (CGRectGetMinY(centeredBox) - start.y) / m;
     }
-    
+
     txmin = MIN(MAX(-CGRectGetWidth(box)/2, txmin), CGRectGetWidth(box)/2);
     tymin = MIN(MAX(-CGRectGetHeight(box)/2, tymin), CGRectGetHeight(box)/2);
     txmax = MIN(MAX(-CGRectGetWidth(box)/2, txmax), CGRectGetWidth(box)/2);
     tymax = MIN(MAX(-CGRectGetHeight(box)/2, tymax), CGRectGetHeight(box)/2);
-    
+
     // translate the values because we use a centered box and maybe the original box has an offset
     txmin += CGRectGetWidth(box)/2 + box.origin.x;
     tymin += CGRectGetHeight(box)/2 + box.origin.y;
     txmax += CGRectGetWidth(box)/2 + box.origin.x;
     tymax += CGRectGetHeight(box)/2 + box.origin.y;
-    
+
     CGPoint minPoint = CGPointMake(txmin, tymin),
-            maxPoint = CGPointMake(txmax, tymax),
-            startPoint = minPoint,
-            endPoint = maxPoint;
-    
+    maxPoint = CGPointMake(txmax, tymax),
+    startPoint = minPoint,
+    endPoint = maxPoint;
+
     // Set the correct start and end point according to the unit circle quadran
     if (angle < M_PI) {
         // the start point has to be lower that the end point on the y-axis
@@ -363,7 +363,7 @@
             endPoint = minPoint;
         }
     }
-    
+
     return @[[NSValue valueWithCGPoint:startPoint],
              [NSValue valueWithCGPoint:endPoint]];
 
@@ -373,18 +373,18 @@
 {
     // ensure [0,2*PI] interval
     angle = fmodf(angle, 2*M_PI);
-    
+
     // bounding box intersection
     CGRect box = CGRectMake(0.f, 0.f, 1.f, 1.f);
     NSArray *intersectionPoints = [DPMeterView intersectionPointsOfLineOrientedBy:angle withBox:box];
-    
+
     // map the intersection points to agree with the (0,0) at top left and (1,1) bottom right Apple scale
     // to achieve that we make a symetry around the axis defined by y=0.5
     CGPoint startPoint = [intersectionPoints[0] CGPointValue],
-            endPoint = [intersectionPoints[1] CGPointValue];
+    endPoint = [intersectionPoints[1] CGPointValue];
     startPoint = CGPointMake(startPoint.x, 1.f - startPoint.y);
     endPoint = CGPointMake(endPoint.x, 1.f - endPoint.y);
-    
+
     return @[[NSValue valueWithCGPoint:startPoint],
              [NSValue valueWithCGPoint:endPoint]];
 }
@@ -399,17 +399,25 @@
 
 - (void)setProgress:(CGFloat)progress
 {
-    [self setProgress:progress animated:NO];
+    [self setProgress:progress animated:NO withDuration:0];
 }
 
 - (void)setProgress:(CGFloat)progress animated:(BOOL)animated
 {
+    [self setProgress:progress animated:animated withDuration:0.5];
+}
+
+- (void)setProgress:(CGFloat)progress withDuration:(NSTimeInterval)duration
+{
+    [self setProgress:progress animated:YES withDuration:duration];
+}
+
+- (void)setProgress:(CGFloat)progress animated:(BOOL)animated withDuration:(NSTimeInterval)duration
+{
     CGFloat pinnedProgress = MIN(MAX(progress, 0.f), 1.f);
     NSArray* newLocations = [self gradientLocations:pinnedProgress];
-    
-    if (animated)
-    {
-        NSTimeInterval duration = 0.5;
+
+    if (animated) {
         [UIView animateWithDuration:duration animations:^{
             CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"locations"];
             animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -419,12 +427,10 @@
             animation.toValue = newLocations;
             [self.gradientLayer addAnimation:animation forKey:@"animateLocations"];
         }];
-    }
-    else
-    {
+    } else {
         [self.gradientLayer setNeedsDisplay];
     }
-    
+
     self.gradientLayer.locations = newLocations;
     _progress = pinnedProgress;
 }
@@ -459,34 +465,34 @@
 
 - (void)motionRefresh:(id)sender
 {
-    
+
     // compute the device yaw from the attitude quaternion
     // http://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
     CMQuaternion quat = self.motionManager.deviceMotion.attitude.quaternion;
     double yaw = asin(2*(quat.x*quat.z - quat.w*quat.y));
-    
+
     // TODO improve the yaw interval (stuck to [-PI/2, PI/2] due to arcsin definition
-    
+
     yaw *= -1;      // reverse the angle so that it reflect a *liquid-like* behavior
     yaw += M_PI_2;  // because for the motion manager 0 is the calibration value (but for us 0 is the horizontal axis)
-    
+
     if (self.motionLastYaw == 0) {
         self.motionLastYaw = yaw;
     }
-    
+
     // kalman filtering
     static float q = 0.1;   // process noise
     static float r = 0.1;   // sensor noise
     static float p = 0.1;   // estimated error
     static float k = 0.5;   // kalman filter gain
-    
+
     float x = self.motionLastYaw;
     p = p + q;
     k = p / (p + r);
     x = x + k*(yaw - x);
     p = (1 - k)*p;
     self.motionLastYaw = x;
-    
+
     // update starting & ending point of the gradient
     [self setGradientOrientationAngle:x];
 }
@@ -501,7 +507,7 @@
     if ( ! [self isGravityActive]) {
         self.motionManager = [[CMMotionManager alloc] init];
         self.motionManager.deviceMotionUpdateInterval = 0.02; // 50 Hz
-        
+
         self.motionLastYaw = 0;
         self.motionDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(motionRefresh:)];
         [self.motionDisplayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
@@ -518,10 +524,10 @@
         [self.motionDisplayLink invalidate];
         self.motionDisplayLink = nil;
         self.motionLastYaw = 0;
-        
+
         // reset the gradient orientation
         [self initialGradientOrientation];
-        
+
         self.motionManager = nil;   // release the motion manager memory
     }
     if ([self.motionManager isDeviceMotionActive])
