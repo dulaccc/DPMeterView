@@ -20,6 +20,7 @@
 @property (nonatomic, strong) CMMotionManager* motionManager;
 @property (nonatomic, strong) CADisplayLink* motionDisplayLink;
 @property (nonatomic) float motionLastYaw;
+@property (nonatomic) BOOL isAnimating;
 
 - (void)commonInit;
 - (NSArray *)gradientPoints:(CGFloat)angle;
@@ -418,6 +419,7 @@
     NSArray* newLocations = [self gradientLocations:pinnedProgress];
 
     if (animated) {
+        _isAnimating = YES;
         [UIView animateWithDuration:duration animations:^{
             CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"locations"];
             animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -426,8 +428,11 @@
             animation.fromValue = self.gradientLayer.locations;
             animation.toValue = newLocations;
             [self.gradientLayer addAnimation:animation forKey:@"animateLocations"];
+        } completion:^(BOOL finished) {
+            _isAnimating = NO;
         }];
     } else {
+        _isAnimating = NO;
         [self.gradientLayer setNeedsDisplay];
     }
 
